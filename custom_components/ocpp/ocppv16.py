@@ -107,10 +107,12 @@ class ChargePoint(cp):
         all_measurands = self.entry.data.get(
             CONF_MONITORED_VARIABLES, DEFAULT_MEASURAND
         )
-        autodetect_measurands = self.entry.data.get(
-            CONF_MONITORED_VARIABLES_AUTOCONFIG,
-            DEFAULT_MONITORED_VARIABLES_AUTOCONFIG,
-        )
+        # https://github.com/lbbrhzn/ocpp/issues/442
+        # autodetect_measurands = self.entry.data.get(
+        #     CONF_MONITORED_VARIABLES_AUTOCONFIG,
+        #     DEFAULT_MONITORED_VARIABLES_AUTOCONFIG,
+        # )
+        autodetect_measurands = []
 
         key = ckey.meter_values_sampled_data.value
 
@@ -145,12 +147,14 @@ class ChargePoint(cp):
                 _LOGGER.debug(
                     f"'{self.id}' measurands set manually to {accepted_measurands}"
                 )
-
-        chgr_measurands = await self.get_configuration(key)
+        _LOGGER.debug(
+            f"'{self.id}' would be getting charger measurands from {key}"
+        )
+        chgr_measurands = '' # https://github.com/lbbrhzn/ocpp/issues/442 await self.get_configuration(key)
 
         if len(accepted_measurands) > 0:
             _LOGGER.debug(f"'{self.id}' allowed measurands: '{accepted_measurands}'")
-            await self.configure(key, accepted_measurands)
+            # https://github.com/lbbrhzn/ocpp/issues/442 await self.configure(key, accepted_measurands)
         else:
             _LOGGER.debug(f"'{self.id}' measurands not configurable by integration")
             _LOGGER.debug(f"'{self.id}' allowed measurands: '{chgr_measurands}'")

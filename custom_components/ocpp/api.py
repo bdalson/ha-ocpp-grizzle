@@ -76,12 +76,16 @@ class CentralSystem:
         self.settings.websocket_ping_tries = entry.data.get(
             CONF_WEBSOCKET_PING_TRIES, DEFAULT_WEBSOCKET_PING_TRIES
         )
-        self.settings.websocket_ping_interval = entry.data.get(
-            CONF_WEBSOCKET_PING_INTERVAL, DEFAULT_WEBSOCKET_PING_INTERVAL
-        )
-        self.settings.websocket_ping_timeout = entry.data.get(
-            CONF_WEBSOCKET_PING_TIMEOUT, DEFAULT_WEBSOCKET_PING_TIMEOUT
-        )
+        # https://github.com/lbbrhzn/ocpp/issues/442#issuecomment-1237651231
+        # self.settings.websocket_ping_interval = entry.data.get(
+        #     CONF_WEBSOCKET_PING_INTERVAL, DEFAULT_WEBSOCKET_PING_INTERVAL
+        # )
+        # self.settings.websocket_ping_timeout = entry.data.get(
+        #     CONF_WEBSOCKET_PING_TIMEOUT, DEFAULT_WEBSOCKET_PING_TIMEOUT
+        # )
+        self.settings.websocket_ping_interval = DEFAULT_WEBSOCKET_PING_INTERVAL
+        self.settings.websocket_ping_timeout = DEFAULT_WEBSOCKET_PING_TIMEOUT
+
         self.settings.config = entry.data
 
         self.subprotocols: list[Subprotocol] = entry.data.get(
